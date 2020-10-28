@@ -33,9 +33,7 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 SpawnPoints.Add(child.gameObject);
             }
         }
-
-            StartCoroutine(SpawningRooms());
-        
+        StartCoroutine(SpawningRooms());        
     }
 
     public void AddSpawnPoint(GameObject Obj)
