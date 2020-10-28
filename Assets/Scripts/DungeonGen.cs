@@ -83,12 +83,12 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 float angleDiff = Mathf.Round(tempDoor.rotation.eulerAngles.y - spawnObj.rotation.eulerAngles.y);                
                 tempRoom.transform.rotation *= Quaternion.Euler(0, 180 - angleDiff, 0);
 
+                //Check for the room position
                 Vector3 doorOffset = tempDoor.position - tempRoom.transform.position;
                 tempRoom.transform.position = spawnObj.position - doorOffset;
-
                 tempRoom.transform.position = new Vector3(tempRoom.transform.position.x, spawnObj.position.y + (tempDoor.localPosition.y * -1), tempRoom.transform.position.z);
 
-                yield return new WaitForSeconds(.035f); //Wait time until the collisions update
+                yield return new WaitForSeconds(.030f); //Wait time until the collisions update
                 if (tempRoom.GetComponent<Room>().isCollidingOtherRoom)
                 {
                     DoorPoints.Add(spawnObj.gameObject);
