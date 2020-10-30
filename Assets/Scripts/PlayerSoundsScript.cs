@@ -9,9 +9,9 @@ public class PlayerSoundsScript : MonoBehaviour
     public CharacterController Character;
     public PlayerController Controller;
 
-    public AudioSource[] Talking;
-    public AudioSource[] Pickup;
-    public AudioSource[] Footsteps;
+    public AudioClip[] Talking;
+    public AudioClip[] Pickup;
+    public AudioClip[] Footsteps;
 
     private float WalkingStepTime;
     
@@ -20,16 +20,18 @@ public class PlayerSoundsScript : MonoBehaviour
 
         while (true) {
             float CurrentSpeed = Controller.curSpeedX + Controller.curSpeedY;
+            Feet.Stop();
 
             if (Character.isGrounded) {
                 if (CurrentSpeed != 0) {
                     if (CurrentSpeed <= WalkingSpeed) {
-                        WalkingStepTime = 0.7f;
-                    } else {
                         WalkingStepTime = 0.5f;
+                    } else {
+                        WalkingStepTime = 0.2f;
                     }
 
-                    Debug.Log("Insert Footstep Sound");
+                    Feet.clip = Footsteps[Random.Range(0, Footsteps.Length)];
+                    Feet.Play();
                     yield return new WaitForSeconds(WalkingStepTime);
                 } else {
                     yield return new WaitForSeconds(0.1f);

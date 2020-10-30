@@ -5189,6 +5189,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5261,6 +5262,38 @@ Transform:
   m_Father: {fileID: 217700961}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 8, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!43 &1302057476
 Mesh:
   m_ObjectHideFlags: 0
@@ -5469,7 +5502,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -5564,11 +5597,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b5d77d829162de044a4d7f188975702d, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 9eac253da497fa642832d5b0e5f29ddf, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -5610,7 +5643,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5657,7 +5690,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1528686828}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4cc0b68f44f912418cfabf46119f373, type: 3}
   m_Name: 
@@ -5668,7 +5701,12 @@ MonoBehaviour:
   Controller: {fileID: 217700962}
   Talking: []
   Pickup: []
-  Footsteps: []
+  Footsteps:
+  - {fileID: 8300000, guid: b5d77d829162de044a4d7f188975702d, type: 3}
+  - {fileID: 8300000, guid: 9eac253da497fa642832d5b0e5f29ddf, type: 3}
+  - {fileID: 8300000, guid: a6542de3440180f498ae7d59216481c0, type: 3}
+  - {fileID: 8300000, guid: 83ecd4f8c68afca4eb55d62946de1f85, type: 3}
+  - {fileID: 8300000, guid: 63ff98d56a05c43448c12d478946a468, type: 3}
 --- !u!1 &1577548257
 GameObject:
   m_ObjectHideFlags: 0
