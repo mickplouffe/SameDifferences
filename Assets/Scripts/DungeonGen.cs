@@ -1,6 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+enum WorldType
+{
+    Medieval,
+    Futuristic
+}
+
+enum MoodType
+{
+    Horror,
+    Joy
+}
 
 public class DungeonGen : MonoSingleton<DungeonGen>
 {
@@ -9,20 +20,29 @@ public class DungeonGen : MonoSingleton<DungeonGen>
     public List<GameObject> DoorPoints = new List<GameObject>();
     public List<GameObject> AllPoints = new List<GameObject>();
 
-
     //public  List<GameObject> SpawnPointsUsed = new List<GameObject>();
     public List<GameObject> RoomPool = new List<GameObject>();
 
-    [SerializeField] LayerMask detectionLayerMask;
+    [SerializeField] WorldType worldType;
+    [SerializeField] MoodType moodType;
+
+    [SerializeField] List<Material> worldMaterials = new List<Material>();
 
     [SerializeField] float spawnDelay = 0.1f;
     [SerializeField] int maxRoom = 50, randomSpawn = 1;
 
     [SerializeField] bool isClosingDoor;
+    [SerializeField] bool isFullRandomRoomGen;
+    [SerializeField] bool isGenOnlyFromLastSpawn;
+
+    bool isLastRoomWasRoom;
+
     [SerializeField] GameObject doorFace;
     [SerializeField] GameObject startingRoom;
 
     public List<GameObject> Rooms;
+    public List<GameObject> Corridors;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +53,8 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 SpawnPoints.Add(child.gameObject);
             }
         }
-        StartCoroutine(SpawningRooms());        
+
+        StartCoroutine(SpawningRooms());
     }
 
     public void AddSpawnPoint(GameObject Obj)
@@ -44,21 +65,30 @@ public class DungeonGen : MonoSingleton<DungeonGen>
     IEnumerator SpawningRooms()
     {
         GameObject tempRoom;
-        float roomLength;
 
         while (true)
         {
             while (SpawnPoints.Count > 0 && RoomPool.Count < maxRoom)
             {
+                Debug.LogError("START:" + SpawnPoints.Count);
                 Transform spawnObj = SpawnPoints[0].transform;
+
+                //if (isGenOnlyFromLastSpawn)
+                //    SpawnPoints.Clear();
+
                 List<GameObject> roomExits = new List<GameObject>();
-                tempRoom = Rooms[Random.Range(0, randomSpawn)];
-                roomLength = tempRoom.GetComponent<Room>().GetRoomLenght();
+                tempRoom = GetRandomRoom();
                 spawnObj.parent.gameObject.layer = 8;
 
                 RoomPool.Add(Instantiate(tempRoom));
                 tempRoom.layer = 9;
                 tempRoom = RoomPool[RoomPool.Count - 1];
+
+                if (worldType == WorldType.Medieval)
+                    tempRoom.GetComponent<MeshRenderer>().material = worldMaterials[0];
+                else
+                    tempRoom.GetComponent<MeshRenderer>().material = worldMaterials[1];
+
 
                 foreach (Transform child in tempRoom.transform)
                 {
@@ -72,13 +102,14 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 AllPoints.Add(tempDoor.gameObject);
                 roomExits.Remove(tempDoor.gameObject);
 
+
                 foreach (GameObject exit in roomExits)
                 {
                     AddSpawnPoint(exit);
                 }
 
                 //Check for the room rotation
-                float angleDiff = Mathf.Round(tempDoor.rotation.eulerAngles.y - spawnObj.rotation.eulerAngles.y);                
+                float angleDiff = Mathf.Round(tempDoor.rotation.eulerAngles.y - spawnObj.rotation.eulerAngles.y);
                 tempRoom.transform.rotation *= Quaternion.Euler(0, 180 - angleDiff, 0);
 
                 //Check for the room position
@@ -86,15 +117,16 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 tempRoom.transform.position = spawnObj.position - doorOffset;
                 tempRoom.transform.position = new Vector3(tempRoom.transform.position.x, spawnObj.position.y + (tempDoor.localPosition.y * -1), tempRoom.transform.position.z);
 
-                yield return new WaitForSeconds(.030f); //Wait time until the collisions update
+                yield return new WaitForSeconds(.022f); //Wait time until the collisions update
                 if (tempRoom.GetComponent<Room>().isCollidingOtherRoom)
                 {
+                    Debug.Log("Colliding");
                     DoorPoints.Add(spawnObj.gameObject);
                     RoomPool.Remove(tempRoom);
                     foreach (GameObject exit in roomExits)
                     {
                         SpawnPoints.Remove(exit);
-                    }                    
+                    }
                     Destroy(tempRoom);
                 }
                 else
@@ -106,7 +138,7 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 AllPoints.Add(spawnObj.gameObject);
                 SpawnPoints.RemoveAt(0);
                 spawnObj.parent.gameObject.layer = 7;
-
+                Debug.LogError("END: " + SpawnPoints.Count);
                 yield return new WaitForSeconds(spawnDelay);
             }
 
@@ -116,7 +148,12 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 SpawnPoints.Clear();
                 foreach (GameObject doorPoint in DoorPoints)
                 {
-                    Instantiate(doorFace, doorPoint.transform.position, doorPoint.transform.rotation);                    
+                    var tempoDoor = Instantiate(doorFace, doorPoint.transform.position, doorPoint.transform.rotation);
+
+                    if (worldType == WorldType.Medieval)
+                        tempoDoor.GetComponent<MeshRenderer>().material = worldMaterials[0];
+                    else
+                        tempoDoor.GetComponent<MeshRenderer>().material = worldMaterials[1];
                 }
                 AllPoints.AddRange(DoorPoints);
                 DoorPoints.Clear();
@@ -127,7 +164,37 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 AllPoints.Clear();
             }
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
         }
+    }
+
+    GameObject GetRandomRoom()
+    {
+        if (isFullRandomRoomGen)
+        {
+            if (Random.value >= 0.5)
+            {
+                return Rooms[Random.Range(0, Rooms.Count)];
+            }
+            else
+            {
+                return Corridors[Random.Range(0, Corridors.Count)];
+            }
+        }
+        else
+        {
+            if (isLastRoomWasRoom)
+            {
+                isLastRoomWasRoom = false;
+                return Corridors[Random.Range(0, Corridors.Count)];
+            }
+            else
+            {
+                isLastRoomWasRoom = true;
+                return Rooms[Random.Range(0, Rooms.Count)];
+            }
+
+        }
+
     }
 }
