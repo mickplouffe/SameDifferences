@@ -31,11 +31,14 @@ public class PlayerSoundsScript : MonoBehaviour
 
                     Debug.Log("Insert Footstep Sound");
                     yield return new WaitForSeconds(WalkingStepTime);
+                } else {
+                    yield return new WaitForSeconds(0.1f);
                 }
+            } else {
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }
-
 
     void Start() {
         StartCoroutine("FootStepsPlayer");
