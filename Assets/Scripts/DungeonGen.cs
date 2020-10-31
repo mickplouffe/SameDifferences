@@ -68,7 +68,7 @@ public class DungeonGen : MonoSingleton<DungeonGen>
         {
             while (SpawnPoints.Count > 0 && RoomPool.Count < maxRoom)
             {
-                Debug.LogError("START:" + SpawnPoints.Count);
+
                 Transform spawnObj = SpawnPoints[0].transform;
 
                 //if (isGenOnlyFromLastSpawn)
@@ -118,7 +118,6 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 yield return new WaitForSeconds(.022f); //Wait time until the collisions update
                 if (tempRoom.GetComponent<Room>().isCollidingOtherRoom)
                 {
-                    Debug.Log("Colliding");
                     DoorPoints.Add(spawnObj.gameObject);
                     RoomPool.Remove(tempRoom);
                     foreach (GameObject exit in roomExits)
@@ -136,7 +135,6 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 AllPoints.Add(spawnObj.gameObject);
                 SpawnPoints.RemoveAt(0);
                 spawnObj.parent.gameObject.layer = 7;
-                Debug.LogError("END: " + SpawnPoints.Count);
                 yield return new WaitForSeconds(spawnDelay);
             }
 
