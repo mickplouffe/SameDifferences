@@ -7630,7 +7630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83003708f21d92242ba295dc704e991d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomLength: 10
+  roomType: 1
   isCollidingOtherRoom: 0
   rb: {fileID: -5397884995356502591}
   exits:

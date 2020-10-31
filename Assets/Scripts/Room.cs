@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoomType
+{
+    Room,
+    Corridor,
+    Special
+}
+
 public class Room : MonoBehaviour
 {
-    [SerializeField] float roomLength = 10;
+    public RoomType roomType;
     public bool isCollidingOtherRoom;
     [SerializeField] Rigidbody rb;
     [SerializeField] GameObject[] exits;
     [SerializeField] BoxCollider[] colliders;
 
-    public float GetRoomLenght()
-    {
-        return roomLength;
-    }
 
     public void RemoveRb()
     {

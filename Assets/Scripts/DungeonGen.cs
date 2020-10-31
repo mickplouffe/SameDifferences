@@ -32,10 +32,8 @@ public class DungeonGen : MonoSingleton<DungeonGen>
     [SerializeField] int maxRoom = 50, randomSpawn = 1;
 
     [SerializeField] bool isClosingDoor;
-    [SerializeField] bool isFullRandomRoomGen;
+    [SerializeField] bool isMixGen;
     [SerializeField] bool isGenOnlyFromLastSpawn;
-
-    bool isLastRoomWasRoom;
 
     [SerializeField] GameObject doorFace;
     [SerializeField] GameObject startingRoom;
@@ -77,7 +75,7 @@ public class DungeonGen : MonoSingleton<DungeonGen>
                 //    SpawnPoints.Clear();
 
                 List<GameObject> roomExits = new List<GameObject>();
-                tempRoom = GetRandomRoom();
+                tempRoom = GetRandomRoom(spawnObj);
                 spawnObj.parent.gameObject.layer = 8;
 
                 RoomPool.Add(Instantiate(tempRoom));
@@ -168,9 +166,9 @@ public class DungeonGen : MonoSingleton<DungeonGen>
         }
     }
 
-    GameObject GetRandomRoom()
+    GameObject GetRandomRoom(Transform exitDoor)
     {
-        if (isFullRandomRoomGen)
+        if (isMixGen)
         {
             if (Random.value >= 0.5)
             {
@@ -183,14 +181,12 @@ public class DungeonGen : MonoSingleton<DungeonGen>
         }
         else
         {
-            if (isLastRoomWasRoom)
+            if (exitDoor.parent.GetComponent<Room>().roomType == RoomType.Room)
             {
-                isLastRoomWasRoom = false;
                 return Corridors[Random.Range(0, Corridors.Count)];
             }
             else
             {
-                isLastRoomWasRoom = true;
                 return Rooms[Random.Range(0, Rooms.Count)];
             }
 
