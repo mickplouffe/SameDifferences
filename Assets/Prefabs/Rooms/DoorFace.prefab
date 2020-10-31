@@ -14,12 +14,13 @@ GameObject:
   - component: {fileID: 8354784699273983817}
   - component: {fileID: 50272234752779412}
   - component: {fileID: 5791289958512021192}
+  - component: {fileID: -6384585604750686691}
   m_Layer: 7
   m_Name: DoorFace
   m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1182774955738107810
 Transform:
@@ -239,8 +240,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83003708f21d92242ba295dc704e991d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomLength: 10
+  roomType: 0
   isCollidingOtherRoom: 0
   rb: {fileID: 0}
   exits: []
   colliders: []
+--- !u!114 &-6384585604750686691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6340932226716352897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bb9ddb66009cc4092c73837b9285cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
