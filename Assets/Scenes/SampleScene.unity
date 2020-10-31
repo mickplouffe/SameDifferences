@@ -5897,7 +5897,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5f73475cf0cad364b9800b85c2a229fc, type: 2}
   - {fileID: 2100000, guid: e3661bd884648474b8c7fa2dda1a0315, type: 2}
   spawnDelay: 0
-  maxRoom: 50
+  maxRoom: 150
   randomSpawn: 9
   isClosingDoor: 1
   isMixGen: 0
@@ -5907,7 +5907,6 @@ MonoBehaviour:
   Rooms:
   - {fileID: 5888133696646174572, guid: a8421b7706417f642954e2d32cf0a474, type: 3}
   - {fileID: 5888133696646174572, guid: 24e352632b106654792565512ee6cb2d, type: 3}
-  - {fileID: 6752772312774242340, guid: e6ed39d96dcef364e88ac6fc8a60f468, type: 3}
   Corridors:
   - {fileID: 6340932226716352897, guid: feadcd4edee40fe45ac4f2f0ffd5014a, type: 3}
   - {fileID: 6340932226716352897, guid: 5100403133b18b24193cd487ca738924, type: 3}
