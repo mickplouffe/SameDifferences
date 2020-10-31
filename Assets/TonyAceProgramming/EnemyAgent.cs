@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AudioSource))]
 public class EnemyAgent : MonoBehaviour
 {
     Player player = null;
@@ -32,12 +33,15 @@ public class EnemyAgent : MonoBehaviour
         player = FindObjectOfType<Player>();
         if ((navAgent = GetComponent<NavMeshAgent>()) == null)
             gameObject.AddComponent<NavMeshAgent>();
+        if ((enemyAudio = GetComponent<AudioSource>()) == null)
+            gameObject.AddComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
+        enemyAudio.Play();
     }
 
     // Update is called once per frame
@@ -72,6 +76,7 @@ public class EnemyAgent : MonoBehaviour
     {
         navAgent.ResetPath();
         transform.LookAt(player.transform);
+        enemyAudio.clip = angryClip;
     }
 
     private void ChaseSequence(Vector3 targetDestination)
@@ -79,10 +84,11 @@ public class EnemyAgent : MonoBehaviour
         navAgent.SetDestination(targetDestination);
         navAgent.speed = chaseSpeed;
         transform.LookAt(player.transform);
+        enemyAudio.clip = angryClip;
     }
 
     private void WanderSequence()
     {
-
+        enemyAudio.clip = breathingClip;
     }
 }
